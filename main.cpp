@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
         string rec = tcp.receive();
         if( rec != "" )
         {
-                cout << "Server Response: " << rec << endl;
+                cout << "Server Response: " << rec;
                 std::stringstream ss(rec);
                 string reply_command, reply_command2;
                 float reply_temp;
@@ -64,10 +64,10 @@ int main(int argc, char** argv) {
                 if(reply_command == "REPLY" && reply_command2 == "TEMP:") {
                     if(reply_temp < settemperature) {
                         tcp.Send("HEAT ON\n");
-                        cout << "Heat on" << endl;
+                        cout << "Sent: HEAT ON" << endl;
                     } else {
                         tcp.Send("HEAT OFF\n");
-                        cout << "Heat off" << endl;
+                        cout << "Sent: HEAT OFF" << endl;
                     }
                 }
         }
