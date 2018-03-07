@@ -61,14 +61,15 @@ int main(int argc, char** argv) {
                 float reply_temp;
                 ss >> reply_command >> reply_command2 >> reply_temp;
                 cout << "Parsed: " << reply_command << " " << reply_command2 << " Value: " << reply_temp << endl;
-                if(reply_command == "REPLY" && reply_command2 == "TEMP") {
+                if(reply_command == "REPLY" && reply_command2 == "TEMP:") {
                     if(reply_temp < settemperature) {
                         tcp.Send("HEAT ON\n");
+                        cout << "Heat on" << endl;
                     } else {
                         tcp.Send("HEAT OFF\n");
+                        cout << "Heat off" << endl;
                     }
                 }
-                tcp.receive();
         }
         sleep(5);
     }
