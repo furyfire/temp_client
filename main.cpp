@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   main.cpp
  * Author: JCT
- *
  * Created on 06 March 2018, 11:41
  */
 
@@ -50,8 +43,10 @@ int main(int argc, char** argv) {
     
     while(1)
     {
-        srand(time(NULL));
+        //Get temperature frequently.
         tcp.Send("GET TEMP\n");
+        
+        //Receive the string containing the temperature
         string rec = tcp.receive();
         if( rec != "" )
         {
@@ -59,9 +54,17 @@ int main(int argc, char** argv) {
                 std::stringstream ss(rec);
                 string reply_command, reply_command2;
                 float reply_temp;
+                
+                //Save each element of the incomming string in a seperate
+                //string. Seperated by spaces.
                 ss >> reply_command >> reply_command2 >> reply_temp;
-                cout << "Parsed: " << reply_command << " " << reply_command2 << " Value: " << reply_temp << endl;
+                cout << "Parsed: " << reply_command << " " << reply_command2 
+                     << " Value: " << reply_temp << endl;
+                
+                //If the client received a temperature
                 if(reply_command == "REPLY" && reply_command2 == "TEMP:") {
+                    
+                    //turn heat on, when temperature is lower than setpoint
                     if(reply_temp < settemperature) {
                         tcp.Send("HEAT ON\n");
                         cout << "Sent: HEAT ON" << endl;
