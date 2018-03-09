@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <signal.h>
 #include "TCPClient.h"
 
 using namespace std;
@@ -15,8 +16,9 @@ TCPClient tcp;
 
 void sig_exit(int s)
 {
-	tcp.exit();
-	exit(0);
+    tcp.Send("HEAT OFF\n");
+    tcp.exit();
+    exit(0);
 }
 
 int main(int argc, char** argv) {
@@ -37,7 +39,7 @@ int main(int argc, char** argv) {
         cout << "Connecting failed" << endl;
         return EXIT_FAILURE;
     }
-    
+    signal(SIGINT, sig_exit);
     string status = tcp.receive();
     cout << "Got! " << status << endl;
     
@@ -74,7 +76,7 @@ int main(int argc, char** argv) {
                     }
                 }
         }
-        sleep(5);
+        sleep(2);
     }
     return 0;
 }
