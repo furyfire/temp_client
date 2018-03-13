@@ -9,7 +9,7 @@
 #include <sstream>
 #include <signal.h>
 #include "TCPClient.h"
-
+#include "jsonrpc.h"
 using namespace std;
 
 TCPClient tcp;
